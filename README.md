@@ -8,7 +8,19 @@
 - 완성된 결과물이 제대로 동작하는지 확인할 방법이 없다
 - 왜 이렇게 만들어졌는지 기록이 남지 않는다
 
-설치하면 "앱 만들고 싶어"라고만 말해도 Claude가 **헌장 → 명세 → 명확화 → 계획 → 점검표 → 작업분해 → 모순점검 → TDD 구현**의 8단계 절차로 이끌어줍니다. GitHub [Spec Kit](https://github.com/github/spec-kit)이 설치되어 있으면 `/speckit.*` 명령을 활용하고(A코스), 없으면 스킬에 내장된 경량 워크플로로 같은 규율을 지킵니다(B코스) — **하이브리드 방식**입니다.
+- 세션이 끊기면(새 대화, `/clear`) 진행 맥락이 사라진다 **(v1.2.0에서 해결)**
+
+설치하면 "앱 만들고 싶어"라고만 말해도 Claude가 **헌장 → 명세 → 명확화 → 계획 → 점검표 → 작업분해 → 모순점검 → TDD 구현**의 8단계 절차로 이끌어줍니다.
+
+## v1.2.0 새 기능
+
+| 기능 | 내용 |
+|---|---|
+| **세션 간 맥락 인계** | 세션 시작 시 `docs/progress.md`를 먼저 읽어 "여기까지 했고 다음은 이것입니다"라고 요약 제시 → 사용자는 "예" 한 마디만. 종료 시("저장해줘", 기능 완료 등) 자동 갱신 |
+| **증거 기반 완료 보고** | "테스트 통과합니다"를 실제 실행 없이 말하지 않음. 반드시 실행한 명령과 출력(`$ pytest -q` → `88 passed`)을 함께 제시 |
+| **새 트리거 문구** | `AI바이브코딩 최신버전 작동` (기존 문구도 모두 동작) |
+
+자세한 규율: [`10-session-continuity.md`](plugins/vibecoding-guide/skills/vibecoding-guide/references/10-session-continuity.md) GitHub [Spec Kit](https://github.com/github/spec-kit)이 설치되어 있으면 `/speckit.*` 명령을 활용하고(A코스), 없으면 스킬에 내장된 경량 워크플로로 같은 규율을 지킵니다(B코스) — **하이브리드 방식**입니다.
 
 이 스킬의 내용은 실제로 완주한 프로젝트 기록인 『바이브코딩 실전 교육교재 — SpecKit로 기획부터 구현까지』에서 추출했습니다. 모든 절차·프롬프트·트러블슈팅 사례는 실제 사례입니다.
 
@@ -63,12 +75,17 @@ vibecoding-guide/                       ← 이 저장소 (마켓플레이스)
     └── skills/vibecoding-guide/        ← 스킬 본체 (방법 2·3에서는 이 폴더만 복사)
         ├── SKILL.md                    ← 핵심 절차 (항상 로딩됨)
         └── references/                 ← 상세 자료 (필요할 때만 Claude가 읽음)
+            ├── 00-guided-session-script.md      ★ 5블록·7단계 진행 대본(핵심)
             ├── 01-why-sdd.md                    왜 절차가 필요한가
             ├── 02-speckit-8steps.md             A코스: Spec Kit 8단계 실전 가이드
             ├── 03-lite-workflow.md              B코스: Spec Kit 없이 진행하는 경량 절차
             ├── 04-tdd-vertical-slice.md         TDD + 버티컬 슬라이스 규율
             ├── 05-troubleshooting.md            실전 트러블슈팅 사례집
-            └── 06-collaboration-and-security.md AI 협업 원칙 · API 키 보안
+            ├── 06-collaboration-and-security.md AI 협업 원칙 · API 키 보안
+            ├── 07-run-guide-template.md         최종 산출물 구동 방법 템플릿
+            ├── 08-design-doc-template.md        설계서(~30p) 작성 템플릿
+            ├── 09-github-deploy-guide.md        GitHub 배포 방법 안내
+            └── 10-session-continuity.md         ★ (v1.2.0) progress.md 인계 + 증거 기반 보고
 ```
 
 ## Spec Kit 설치 (A코스를 쓰려면)
